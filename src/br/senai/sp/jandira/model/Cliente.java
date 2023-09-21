@@ -10,10 +10,10 @@ public class Cliente {
      * Declarar Variaveis
      *
      * */
-    String nome, email, endereco;
-    long telefone, cpf, rg;
+    public String nome, email, endereco;
+    public long telefone, cpf, rg;
 
-    double dinheiroDisponivel;
+    public double dinheiroDisponivel;
 
     /** Instancia o Scanner */
     Scanner teclado = new Scanner(System.in);
@@ -52,6 +52,20 @@ public class Cliente {
     for(Cliente objCliente : listCliente) {
         System.out.println(objCliente.nome);
         }
+    
+    }
+    
+    public Cliente pesquisarComprador(String nomeComprador){
+        
+        for (Cliente cliente : listCliente){
+            if (cliente.nome.equalsIgnoreCase(nomeComprador)){
+                return cliente;
+                
+            }
+        }
+        return null;
     }
 
+    public void listCliente() {
+    }
 }

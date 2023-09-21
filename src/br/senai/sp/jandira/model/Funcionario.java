@@ -54,8 +54,32 @@ public class Funcionario {
 
     public void receberComissao(Veiculo objVeiculo) {
 
-        comissao += objVeiculo.preco * 0.10;
+        comissao = objVeiculo.preco * 0.10;
         System.out.println("A comissão foi de " + comissao);
 
     }
+
+    public Funcionario listFuncionario() {
+        for (Funcionario vendedor : listFuncionario){
+            if (vendedor.nome.equalsIgnoreCase(nome)){
+                return vendedor;
+
+            }
+        }
+        return null;
+    }
+
+
+    public Funcionario pesquisarVendedor(String nome){
+
+        for (Funcionario vendedor : listFuncionario){
+            if (vendedor.nome.equalsIgnoreCase(nome)){
+                return vendedor;
+
+            }
+        }
+        return null;
+    }
+
+
 }

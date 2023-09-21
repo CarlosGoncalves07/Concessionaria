@@ -9,11 +9,7 @@ public class Menu {
     Veiculo refListVeiculo = new Veiculo();
 
     Scanner teclado = new Scanner(System.in);
-    Cliente cliente = new Cliente();
-    Funcionario funcionario = new Funcionario();
     Venda objVenda = new Venda();
-    Veiculo veiculo = new Veiculo();
-
 
     public void menu(){
 
@@ -54,7 +50,6 @@ public class Menu {
                 case 2:
                     Veiculo objVeiculo = new Veiculo();
                     objVeiculo.cadastarVeiculo();
-                    Veiculo RefListVeiculo;
                     refListVeiculo.adicionarVeiculo(objVeiculo);
                     break;
 
@@ -65,10 +60,46 @@ public class Menu {
                     break;
 
                 case 4:
-                   boolean validaVenda = objVenda.realizarVenda(veiculo, cliente);
-                   if (validaVenda){
-                       cliente.dinheiroDisponivel -= veiculo.preco;
-                       System.out.println("O saldo do cliente é: " + cliente.dinheiroDisponivel);
+                    refListCliente.listCliente();
+                    System.out.println("Informe o nome do cliente: ");
+                    String nomeComprador = teclado.nextLine();
+
+                    refListVeiculo.listarVeiculos();
+                    System.out.println("Informe o modelo do veiculo: ");
+                    String modeloVeiculo = teclado.nextLine();
+
+                    refListFuncionario.listFuncionario();
+                    System.out.println("Informe o nome do vendedor: ");
+                    String nomeVendedor = teclado.nextLine();
+
+                    Cliente objComprador = refListCliente.pesquisarComprador(nomeComprador);
+
+                    Veiculo objVeiculoVenda = refListVeiculo.localizarVeiculoCompra(modeloVeiculo);
+
+                    Funcionario objVendedor = refListFuncionario.pesquisarVendedor(nomeVendedor);
+
+                    boolean formaPagamento = objVenda.avaliaFormaPagamento();
+
+                    boolean validaVenda = false;
+                    boolean validaFinanciamento = false;
+
+                    if (formaPagamento) {
+                        validaVenda = objVenda.realizarVenda(objVeiculoVenda, objComprador);
+                    } else {
+                        validaFinanciamento = objVenda.realizarFinanciamento(objComprador, objVeiculoVenda);
+                    }
+
+                    if (validaVenda || validaFinanciamento){
+
+                        System.out.println("//// ---- Parabens ---- ////");
+                        objComprador.dinheiroDisponivel -= objVeiculoVenda.preco;
+                        System.out.println("");
+
+                       objComprador.dinheiroDisponivel -= objVeiculoVenda.preco;
+                       System.out.println("O saldo do cliente é: " + objComprador.dinheiroDisponivel);
+
+                       objVendedor.receberComissao(objVeiculoVenda);
+                       System.out.println("O funcionario recebeu: " + objVendedor.comissao);
                    }
                     break;
 
@@ -92,10 +123,9 @@ public class Menu {
 
 
                     if (veiculoPesquisado != null && veiculoPesquisado != ""){
-                        validaVeiculo = veiculo.pesquisarVeiculo(veiculoPesquisado);
+                        validaVeiculo = refListVeiculo.pesquisarVeiculo(veiculoPesquisado);
                     }else {
-                        System.out.println("Impossivel realizar pesquisa!"
-                        );
+                        System.out.println("Impossivel realizar pesquisa!");
                     }
 
                     if(validaVeiculo){
@@ -108,6 +138,8 @@ public class Menu {
                 case 9:
                     continuar = false;
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + escolhaUsuario);
             }
 
             if (escolhaUsuario < 1 || escolhaUsuario > 9){

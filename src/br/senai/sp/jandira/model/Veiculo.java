@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Veiculo {
-    String modelo, marca, cor, placa, combustivel;
-    double preco;
-    int ano;
+    public String modelo, marca, cor, placa, combustivel;
+    public double preco;
+    public int ano;
+    public String modeloVeiculo;
 
     /** Instancia Scanner */
     Scanner teclado = new Scanner(System.in);
@@ -48,14 +49,24 @@ public void listarVeiculos(){
     }
 }
 
-public boolean pesquisarVeiculo( String veiculoPesuqisado){
+public boolean pesquisarVeiculo(String veiculoPesuqisado){
     for (Veiculo veiculo : listVeiculos){
             if(veiculo.modelo.equalsIgnoreCase(veiculoPesuqisado)){
-                modelo = teclado.nextLine();
                 return true;
             }
     }
     return false;
 }
+
+public Veiculo localizarVeiculoCompra(String modeloVeiculo) {
+
+    for (Veiculo veiculo : listVeiculos) {
+        if (veiculo.modelo.equalsIgnoreCase(modeloVeiculo)) {
+            return veiculo;
+        }
+    }
+    return null;
+}
+
 
 }
